@@ -6,4 +6,12 @@
 # ║  Developer   : @ArchonCEO                                   ║
 # ║  License     : MIT                                          ║
 # ╚══════════════════════════════════════════════════════════════╝
-"""GameBot Aiogram handlers."""
+"""Help/commands router."""
+from __future__ import annotations
+from aiogram import Router
+from aiogram.filters import Command
+
+def build_router(app):
+    router = Router(name="help")
+    router.message.register(app.command_help, Command(commands=["help", "commands"]))
+    return router
