@@ -7,21 +7,14 @@
 # ║  License     : MIT                                          ║
 # ╚══════════════════════════════════════════════════════════════╝
 
-"""Inline keyboard builders.
+from __future__ import annotations
+from .common import kb, btn
+from app.locales.loader import load
 
-Keyboard modules contain presentation-only code. Command/callback behaviour stays in
-``app.handlers`` and user-facing strings come from ``app.locales``.
-"""
-
-from .common import kb, btn, url_btn
-from .home import home_keyboard
-from .help import help_keyboard
-from .profile import profile_keyboard
-from .wallet import wallet_keyboard
-from .games import trust_keyboard
-from .language import language_keyboard
-
-__all__ = [
-    "kb", "btn", "url_btn", "home_keyboard", "help_keyboard",
-    "profile_keyboard", "wallet_keyboard", "trust_keyboard", "language_keyboard",
-]
+def help_keyboard(page: int, language: str = "en", total: int = 5):
+    page = max(1, min(total, int(page))); b = load(language)["buttons"]
+    row = []
+    if page > 1: row.append(btn(b["prev"], f"help:{page-1}", "prev"))
+    row.append(btn(b["page"].format(page=page), "noop", "page"))
+    if page < total: row.append(btn(b["next"], f"help:{page+1}", "next"))
+    return kb([row, [btn(b["home"], "home", "home")]])

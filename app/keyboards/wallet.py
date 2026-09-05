@@ -7,21 +7,14 @@
 # ║  License     : MIT                                          ║
 # ╚══════════════════════════════════════════════════════════════╝
 
-"""Inline keyboard builders.
+from __future__ import annotations
+from .common import kb, btn
+from app.locales.loader import load
 
-Keyboard modules contain presentation-only code. Command/callback behaviour stays in
-``app.handlers`` and user-facing strings come from ``app.locales``.
-"""
+def wallet_keyboard(language: str = "en"):
+    b=load(language)["buttons"]
+    return kb([[btn(b["profile"],"profile","profile"),btn(b["leaderboard"],"leaderboard","leaderboard")],[btn(b["home"],"home","home")]])
 
-from .common import kb, btn, url_btn
-from .home import home_keyboard
-from .help import help_keyboard
-from .profile import profile_keyboard
-from .wallet import wallet_keyboard
-from .games import trust_keyboard
-from .language import language_keyboard
-
-__all__ = [
-    "kb", "btn", "url_btn", "home_keyboard", "help_keyboard",
-    "profile_keyboard", "wallet_keyboard", "trust_keyboard", "language_keyboard",
-]
+def leaderboard_keyboard(language: str = "en"):
+    b=load(language)["buttons"]
+    return kb([[btn(b["richest"],"lb:richest","richest"),btn(b["charm"],"lb:charm","charm")],[btn(b["chat_top"],"lb:chat","chat_top"),btn(b["global_chat"],"lb:global","global_chat")],[btn(b["home"],"home","home")]])
